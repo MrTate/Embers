@@ -12,7 +12,7 @@
         android:id="@+id/current_score"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Score: 1000"
+        android:text="@string/score"
         android:textSize="20sp"
         android:paddingLeft="15dp"
         android:gravity="center_vertical" />

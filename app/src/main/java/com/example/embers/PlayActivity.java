@@ -144,6 +144,7 @@ public class PlayActivity extends AppCompatActivity {
                 Log.e("TATE_TAG", "Health = " + playerHealth);
             } else if (orb.scored) {
                 playerScore = playerScore + orb.points;
+                scoreLabel.setText("Score : " + playerScore);
                 Log.e("TATE_TAG", "Score = " + playerScore);
             }
             orbsList.remove(index);

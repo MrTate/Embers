@@ -3,4 +3,5 @@
     <string name="main_activity_title">Embers</string>
     <string name="start_game">Play!</string>
     <string name="leaderboard">Leaderboard</string>
+    <string name="score">Score : 0</string>
 </resources>
