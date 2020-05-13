@@ -120,7 +120,7 @@ public class PlayActivity extends AppCompatActivity {
 
         restartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                startGame();
+                restartGame();
             }
         });
 
@@ -214,10 +214,10 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void spawnOrbs() {
-        int orbSize = 120; // TODO: Randomize this size
-        int orbSpeed = 6; // TODO: Randomize the speed
-        int max = getDisplayHeight() - orbSize - navBarHeight;
         Random random = new Random();
+        int orbSize = random.nextInt(120) + 80;
+        int orbSpeed = random.nextInt(18) + 6;
+        int max = getDisplayHeight() - orbSize - navBarHeight;
         int y = random.nextInt(max - scoreLabel.getHeight()) + scoreLabel.getHeight();
         //TODO: add ability for orbs to move diagonally
         orbsList.add(new Orb(this, -50, y, orbSize, orbSpeed));
@@ -252,7 +252,7 @@ public class PlayActivity extends AppCompatActivity {
         return this.getResources().getDisplayMetrics().heightPixels;
     }
 
-    public void startGame() {
+    public void restartGame() {
         startActivity(new Intent(this, PlayActivity.class));
     }
 
