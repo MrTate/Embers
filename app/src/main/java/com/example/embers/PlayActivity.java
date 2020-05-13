@@ -23,12 +23,15 @@ public class PlayActivity extends AppCompatActivity {
     private TextView scoreLabel;
     private int playerScore;
     private int playerHealth;
+    private int spawnCounter;
+    private int spawnPeriod;
     private FrameLayout playFrameLayout;
     final ArrayList<Orb> orbsList = new ArrayList<>();
 
     private Handler handler = new Handler();
     private Timer positionTimer = new Timer();
     private Timer orbSpawnTimer = new Timer();
+    private TimerTask spawnTask;
 
     private class Orb {
         private int xPosition;
@@ -80,8 +83,6 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: Override the back navigation button to end the game
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,8 @@ public class PlayActivity extends AppCompatActivity {
 
         playerScore = 0;
         playerHealth = 1000;
+        spawnCounter = 0;
+        spawnPeriod = 1500;
         scoreLabel = findViewById(R.id.current_score);
         playFrameLayout = findViewById(R.id.play_frame);
         // TODO: Add health bar at the bottom
@@ -106,7 +109,7 @@ public class PlayActivity extends AppCompatActivity {
             }
         }, 0, 20);
 
-        orbSpawnTimer.schedule(new TimerTask() {
+        spawnTask = new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
@@ -116,7 +119,9 @@ public class PlayActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 0, 1000); //TODO: experiment with this value
+        };
+
+        orbSpawnTimer.schedule(spawnTask, 0, spawnPeriod);
     }
 
     public void updatePositions() {
@@ -167,6 +172,27 @@ public class PlayActivity extends AppCompatActivity {
         int orbSpeed = 6; // TODO: Randomize the speed
         int y = (int) Math.floor(Math.random() * (getDisplayHeight() - orbSize));
         orbsList.add(new Orb(this, -50, y, orbSize, orbSpeed));
+
+        spawnCounter++;
+        if (spawnCounter % 10 == 0) {
+            spawnPeriod -= 100;
+            if (spawnPeriod <= 500) {
+                spawnPeriod = 500;
+            }
+            spawnTask.cancel();
+            spawnTask = new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            spawnOrbs();
+                        }
+                    });
+                }
+            };
+            orbSpawnTimer.schedule(spawnTask, 0, spawnPeriod);
+        }
     }
 
     private int getDisplayWidth() {
