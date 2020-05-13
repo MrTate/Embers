@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,6 +27,7 @@ public class PlayActivity extends AppCompatActivity {
     private int playerHealth;
     private int spawnCounter;
     private int spawnPeriod;
+    private int navBarHeight;
     private FrameLayout playFrameLayout;
     final ArrayList<Orb> orbsList = new ArrayList<>();
 
@@ -92,6 +95,9 @@ public class PlayActivity extends AppCompatActivity {
         playerHealth = 1000;
         spawnCounter = 0;
         spawnPeriod = 1500;
+        Resources resources = this.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        navBarHeight = resources.getDimensionPixelSize(resourceId);
         scoreLabel = findViewById(R.id.current_score);
         playFrameLayout = findViewById(R.id.play_frame);
         // TODO: Add health bar at the bottom
@@ -170,14 +176,17 @@ public class PlayActivity extends AppCompatActivity {
     public void spawnOrbs() {
         int orbSize = 120; // TODO: Randomize this size
         int orbSpeed = 6; // TODO: Randomize the speed
-        int y = (int) Math.floor(Math.random() * (getDisplayHeight() - orbSize));
+        int max = getDisplayHeight() - orbSize - navBarHeight;
+        Random random = new Random();
+        int y = random.nextInt(max - scoreLabel.getHeight()) + scoreLabel.getHeight();
+        //TODO: add ability for orbs to move diagonally
         orbsList.add(new Orb(this, -50, y, orbSize, orbSpeed));
 
         spawnCounter++;
         if (spawnCounter % 10 == 0) {
             spawnPeriod -= 100;
-            if (spawnPeriod <= 500) {
-                spawnPeriod = 500;
+            if (spawnPeriod <= 250) {
+                spawnPeriod = 250;
             }
             spawnTask.cancel();
             spawnTask = new TimerTask() {
