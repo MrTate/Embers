@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,10 @@ public class PlayActivity extends AppCompatActivity {
     private int spawnCounter;
     private int spawnPeriod;
     private int navBarHeight;
+    private View gameOver;
+    private Button restartButton;
+    private Button menuButton;
+    private Button leaderboardButton;
     private FrameLayout playFrameLayout;
     final ArrayList<Orb> orbsList = new ArrayList<>();
 
@@ -100,8 +105,36 @@ public class PlayActivity extends AppCompatActivity {
         navBarHeight = resources.getDimensionPixelSize(resourceId);
         scoreLabel = findViewById(R.id.current_score);
         playFrameLayout = findViewById(R.id.play_frame);
+        gameOver = findViewById(R.id.game_over);
+        gameOver.setVisibility(View.INVISIBLE);
+        restartButton = findViewById(R.id.restart);
+        restartButton.setEnabled(false);
+        restartButton.setVisibility(View.INVISIBLE);
+        menuButton = findViewById(R.id.main_menu);
+        menuButton.setEnabled(false);
+        menuButton.setVisibility(View.INVISIBLE);
+        leaderboardButton = findViewById(R.id.leaderboard_button);
+        leaderboardButton.setEnabled(false);
+        leaderboardButton.setVisibility(View.INVISIBLE);
         // TODO: Add health bar at the bottom
-        // TODO: Add restart button and move it off screen
+
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                startGame();
+            }
+        });
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                openMainMenu();
+            }
+        });
+
+        leaderboardButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                openLeaderboard();
+            }
+        });
 
         positionTimer.schedule(new TimerTask() {
             @Override
@@ -162,14 +195,21 @@ public class PlayActivity extends AppCompatActivity {
             orbsList.remove(index);
         }
         if (playerHealth <= 0) {
-            //TODO: END THE GAME and MOVE RESTART BUTTON
             Log.e("TATE_TAG", "GAME OVER!!!!!");
             orbSpawnTimer.cancel();
             for (Orb orb : orbsList) {
                 playFrameLayout.removeView(orb.ball);
             }
+
             orbsList.clear();
             positionTimer.cancel();
+            gameOver.setVisibility(View.VISIBLE);
+            restartButton.setEnabled(true);
+            restartButton.setVisibility(View.VISIBLE);
+            menuButton.setEnabled(true);
+            menuButton.setVisibility(View.VISIBLE);
+            leaderboardButton.setEnabled(true);
+            leaderboardButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -212,11 +252,15 @@ public class PlayActivity extends AppCompatActivity {
         return this.getResources().getDisplayMetrics().heightPixels;
     }
 
-    @Override
-    public void onBackPressed() {
-        orbSpawnTimer.cancel();
-        orbsList.clear();
-        positionTimer.cancel();
+    public void startGame() {
+        startActivity(new Intent(this, PlayActivity.class));
+    }
+
+    public void openLeaderboard() {
+        startActivity(new Intent(this, LeaderboardActivity.class));
+    }
+
+    public void openMainMenu() {
         startActivity(new Intent(this, MainActivity.class));
     }
 }

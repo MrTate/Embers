@@ -4,4 +4,7 @@
     <string name="start_game">Play!</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="score">Score : 0</string>
+    <string name="game_over">Game Over</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="restart">Restart</string>
 </resources>
