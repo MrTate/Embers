@@ -67,10 +67,8 @@ public class PlayActivity extends AppCompatActivity {
             yPosition = y;
             ball.setX(x);
             ball.setY(y);
-
-            //TODO Calculate points and damage based on size and speed
-            points = 50;
-            damage = 100;
+            points = 1000*speed/size;
+            damage = 10*size/speed;
 
             ball.setOnTouchListener(new View.OnTouchListener() {
                 @Override
