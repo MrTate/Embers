@@ -26,10 +26,12 @@ public class PlayActivity extends AppCompatActivity {
     private TextView scoreLabel;
     private int playerScore;
     private int playerHealth;
+    private int startingHealth;
     private int spawnCounter;
     private int spawnPeriod;
     private int navBarHeight;
     private View gameOver;
+    private View healthBar;
     private Button restartButton;
     private Button menuButton;
     private Button leaderboardButton;
@@ -96,6 +98,7 @@ public class PlayActivity extends AppCompatActivity {
 
         playerScore = 0;
         playerHealth = 1000;
+        startingHealth = 1000;
         spawnCounter = 0;
         spawnPeriod = 1500;
         Resources resources = this.getResources();
@@ -114,7 +117,7 @@ public class PlayActivity extends AppCompatActivity {
         leaderboardButton = findViewById(R.id.leaderboard_button);
         leaderboardButton.setEnabled(false);
         leaderboardButton.setVisibility(View.INVISIBLE);
-        // TODO: Add health bar at the bottom
+        healthBar = findViewById(R.id.health_bar);
 
         restartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
@@ -184,6 +187,8 @@ public class PlayActivity extends AppCompatActivity {
             Orb orb = orbsList.get(index);
             if (orb.damaged) {
                 playerHealth = playerHealth - orb.damage;
+                float scalingFactor = (float) playerHealth/startingHealth;
+                healthBar.setScaleX(scalingFactor);
                 Log.e("TATE_TAG", "Health = " + playerHealth);
             } else if (orb.scored) {
                 playerScore = playerScore + orb.points;
@@ -194,6 +199,7 @@ public class PlayActivity extends AppCompatActivity {
         }
         if (playerHealth <= 0) {
             Log.e("TATE_TAG", "GAME OVER!!!!!");
+            healthBar.setScaleX(0);
             orbSpawnTimer.cancel();
             for (Orb orb : orbsList) {
                 playFrameLayout.removeView(orb.ball);

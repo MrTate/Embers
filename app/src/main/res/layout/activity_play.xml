@@ -56,4 +56,12 @@
         android:layout_height="match_parent">
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/health_bar"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/health" />
+
 </RelativeLayout>
