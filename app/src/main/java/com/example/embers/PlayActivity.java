@@ -115,6 +115,8 @@ public class PlayActivity extends AppCompatActivity {
         menuButton.setVisibility(View.INVISIBLE);
         healthBar = findViewById(R.id.health_bar);
 
+        //TODO: Add local high score
+
         restartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 restartGame();
