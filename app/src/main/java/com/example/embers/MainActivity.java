@@ -20,20 +20,9 @@ public class MainActivity extends AppCompatActivity {
                 startGame();
             }
         });
-
-        final Button leaderboardButton = findViewById(R.id.leaderboard_button);
-        leaderboardButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                openLeaderboard();
-            }
-        });
     }
 
     private void startGame() {
         startActivity(new Intent(this, PlayActivity.class));
-    }
-
-    private void openLeaderboard() {
-        startActivity(new Intent(this, LeaderboardActivity.class));
     }
 }

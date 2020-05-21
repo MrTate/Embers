@@ -34,7 +34,6 @@ public class PlayActivity extends AppCompatActivity {
     private View healthBar;
     private Button restartButton;
     private Button menuButton;
-    private Button leaderboardButton;
     private FrameLayout playFrameLayout;
     final ArrayList<Orb> orbsList = new ArrayList<>();
 
@@ -114,9 +113,6 @@ public class PlayActivity extends AppCompatActivity {
         menuButton = findViewById(R.id.main_menu);
         menuButton.setEnabled(false);
         menuButton.setVisibility(View.INVISIBLE);
-        leaderboardButton = findViewById(R.id.leaderboard_button);
-        leaderboardButton.setEnabled(false);
-        leaderboardButton.setVisibility(View.INVISIBLE);
         healthBar = findViewById(R.id.health_bar);
 
         restartButton.setOnClickListener(new View.OnClickListener() {
@@ -128,12 +124,6 @@ public class PlayActivity extends AppCompatActivity {
         menuButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 openMainMenu();
-            }
-        });
-
-        leaderboardButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                openLeaderboard();
             }
         });
 
@@ -212,8 +202,6 @@ public class PlayActivity extends AppCompatActivity {
             restartButton.setVisibility(View.VISIBLE);
             menuButton.setEnabled(true);
             menuButton.setVisibility(View.VISIBLE);
-            leaderboardButton.setEnabled(true);
-            leaderboardButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -258,10 +246,6 @@ public class PlayActivity extends AppCompatActivity {
 
     public void restartGame() {
         startActivity(new Intent(this, PlayActivity.class));
-    }
-
-    public void openLeaderboard() {
-        startActivity(new Intent(this, LeaderboardActivity.class));
     }
 
     public void openMainMenu() {
